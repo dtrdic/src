@@ -1,13 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { FETCH_INITIAL_SURVEY_DATA } from '../constants/actionTypes'
 
-
-const surveyFormData = createSlice({
-    name: 'surveyFormData',
-    initialState: { 
+const surveyDataInit = {
         data: {
                 type: '',
                 id: '',
-                atributes: {
+                attributes: {
                     title: '',
                     description: '',
                     questions: [{
@@ -22,15 +19,18 @@ const surveyFormData = createSlice({
                     }]
                 }
             },
-        cartIsVisible: false },
+}
 
-    reducers: {
-      toggle(state) {
-        state.cartIsVisible = !state.cartIsVisible;
-      }
+  const surveyFormData = (state = surveyDataInit, action) => {
+    switch (action.type) {
+        case FETCH_INITIAL_SURVEY_DATA:
+            const iData = Object.assign({}, state, action.payload);
+            debugger;
+            return iData;
+
+        default:
+            return state;
     }
-  });
-  
-  export const uiActions = surveyFormData.actions;
+};
   
   export default surveyFormData;

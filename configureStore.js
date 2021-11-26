@@ -1,11 +1,21 @@
-// import { configureStore } from '@reduxjs/toolkit';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
-// import surveyFormData from './reducers/surveyFormData';
+import surveyCombinedReducers from './reducers/index';
 
-// const store = configureStore({
-//   reducer: { surveyFormData: surveyFormData.reducer },
-// });
+export default function configureStore() {
+    if ((typeof compose !== 'undefined') && process.env.NODE_ENV !== 'production') {
+        /* eslint-disable-next-line no-underscore-dangle */
+        const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+        const store = createStore(surveyCombinedReducers, /* preloadedState, */ composeEnhancers(
+            applyMiddleware(thunkMiddleware)
+        ));
 
-// export default store;
+        return store;
+    }
 
-
+    return createStore(
+        surveyCombinedReducers,
+        applyMiddleware(thunkMiddleware)
+    );
+}

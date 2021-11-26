@@ -1,9 +1,13 @@
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import store from './reducers/index';
+import { getInitialData } from './actions/networkCalls';
 import './index.css';
 import App from './App';
+import configureStore from './configureStore';
+
+const store = configureStore();
+store.dispatch(getInitialData());
 
 ReactDOM.render(
   <Provider store={store}>
