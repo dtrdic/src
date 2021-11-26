@@ -1,25 +1,52 @@
-import logo from './logo.svg';
 import './App.css';
+import SurveyForm from './components/SurveyForm'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload2.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SurveyForm 
+          //{...this.props.data}
+          // required={required}
+          // error={error}
+          // handleChange={handleChange}
+          // handleSubmit={postReview}
+      />
     </div>
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+      data: state.surveyFormData,
+  };
+}
+
+App.propTypes = {
+  data: PropTypes.shape({
+      type: PropTypes.string,
+      id: PropTypes.string,
+      atributes: PropTypes.shape({
+          title: PropTypes.string,
+          description: PropTypes.string,
+          questions: PropTypes.arrayOf(
+              PropTypes.shape({
+                  questionId: PropTypes.string,
+                  questionType: PropTypes.string,
+                  label: PropTypes.string,
+                  required: PropTypes.bool,
+                  atributes: PropTypes.shape({
+                      min: PropTypes.number,
+                      max: PropTypes.number,
+                  })
+              })).isRequired,
+      }),
+      // required: PropTypes.bool,
+      // error: PropTypes.object,
+      // handleChange: PropTypes.func,
+      // postReview: PropTypes.object
+  }),
+};
+
+export default connect(mapStateToProps)(App);
