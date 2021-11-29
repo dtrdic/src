@@ -6,3 +6,12 @@ export function fetchInitialSurveyData(response) {
         payload: response
     };
 }
+
+export function updateProperty(propertyName, value) {
+    debugger;
+    return {
+        type: types.UPDATE_PROPERTY,
+        propertyName,
+        value
+    };
+}

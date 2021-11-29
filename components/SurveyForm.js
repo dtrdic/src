@@ -2,15 +2,27 @@ import React, { PureComponent } from "react";
 import '../components/SurveyForm.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { updateProperty } from '../actions/creators';
+import { submitFormAnswers } from '../actions/networkCalls';
 
 class SurveyForm extends PureComponent {
 
+    // handleChange = (e) => {
+    //     setForm({ ...form, [e.target.name]: e.target.value });
+    //   };
+
+      _submitAnswers = () => {
+        this.props.onFormSubmit();
+    }
+
+    _updateProperty = (property) => {
+        debugger;
+        this.props.updateProperty(property.target.name, property.target.value);
+    }
 
     render() {
         const { data, handleChange, required, error, handleSubmit } = this.props;
-        debugger;
         const {attributes} = data;
-
         const questionList = (
             <div>
                 {attributes?.questions?.map((question) =>
@@ -39,7 +51,7 @@ class SurveyForm extends PureComponent {
 
         return (
           <div className="Form">
-          <form id="survey-form" onSubmit={handleSubmit}>
+          <form id="survey-form" >
             <div className="form-column">
               {data?.attributes?.questions &&
                 data?.attributes?.questions.map((question, index) => (
@@ -59,7 +71,8 @@ class SurveyForm extends PureComponent {
                           id={question?.questionId}
                           placeholder="Enter the name of the film"
                           required={question?.required}
-                          onChange={handleChange}
+                          onChange={this._updateProperty}
+                          //onChange={handleChange}
                         />
                       </div>
                     ) : (
@@ -73,7 +86,8 @@ class SurveyForm extends PureComponent {
                               name="review"
                               value="movie-review-bad"
                               id="movie-review-bad"
-                              onChange={handleChange}
+                              onChange={this._updateProperty}
+                              //onChange={handleChange}
                               required={question?.required}
                             />
                             <label
@@ -92,7 +106,8 @@ class SurveyForm extends PureComponent {
                               value="movie-review-good"
                               id="movie-review-good"
                               required={question?.required}
-                              onChange={handleChange}
+                              onChange={this._updateProperty}
+                              //onChange={handleChange}
                             />
                             <label
                               htmlFor="movie-review-good"
@@ -114,11 +129,13 @@ class SurveyForm extends PureComponent {
                   type="submit"
                   value="Submit"
                   id="submit"
+                  onClick={() => this._submitAnswers()}
                 />
                 {error && <div> {error}</div>}
               </div>
             </div>
           </form>
+
         </div>
         );
     }
@@ -130,6 +147,17 @@ function mapStateToProps(state) {
         data: state.surveyFormData
     };
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    updateProperty: (propertyName, value) => {
+        dispatch(updateProperty(propertyName, value));
+    },
+
+    onFormSubmit: () => {
+        dispatch(submitFormAnswers());
+    },
+
+});
 
 SurveyForm.propTypes = {
     data: PropTypes.shape({
@@ -154,7 +182,7 @@ SurveyForm.propTypes = {
     }),
     required: PropTypes.bool,
     error: PropTypes.object,
-    handleChange: PropTypes.func,
+    onFormSubmit: PropTypes.func,
     postReview: PropTypes.object
 };
 
@@ -175,4 +203,4 @@ SurveyForm.propTypes = {
 //     }
 // }
 
-export default connect(mapStateToProps)(SurveyForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SurveyForm);

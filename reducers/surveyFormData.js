@@ -1,4 +1,4 @@
-import { FETCH_INITIAL_SURVEY_DATA } from '../constants/actionTypes'
+import { FETCH_INITIAL_SURVEY_DATA, UPDATE_PROPERTY } from '../constants/actionTypes'
 
 const surveyDataInit = {
         data: {
@@ -22,11 +22,20 @@ const surveyDataInit = {
 }
 
   const surveyFormData = (state = surveyDataInit, action) => {
+    const data = Object.assign({}, state);
     switch (action.type) {
         case FETCH_INITIAL_SURVEY_DATA:
-            const iData = Object.assign({}, state, action.payload);
+            const initData = Object.assign({}, state, action.payload);
             debugger;
-            return iData;
+            return initData;
+        case UPDATE_PROPERTY:
+            data.data.attributes.questions.questionId = action.value;
+            data.data.attributes.questions.questionType = action.value;
+            // data.data.attributes.questions.attributes.min = action.value;
+            // data.data.attributes.questions.attributes.max = action.value;
+            //data.data.attributes.questions[action.propertyName] = action.value;
+            debugger;
+            return data;
 
         default:
             return state;

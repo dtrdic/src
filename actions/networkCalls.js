@@ -5,8 +5,8 @@ import * as creators from '../actions/creators';
 export const getInitialData = () => (dispatch) => {
 
     let data = {
-        type: 'dsa',
-        id: 'as',
+        type: 'surveys',
+        id: '2660dd24-e2db-42c1-8093-284b1df2664c',
         attributes: {
             title: 'Film feedback form',
             description: '<p>Thank you for participating in the film festival!</p><p>Please fill out this short survey so we can record your feedback.</p>',
@@ -14,17 +14,17 @@ export const getInitialData = () => (dispatch) => {
                 questionId: 'film',
                 questionType: 'text',
                 label: 'What film did you watch?',
-                required: false,
+                required: true,
                 attributes: null
             },
             {
                 questionId: 'review',
                 questionType: 'rating',
                 label: '"How would you rate the film? (1 - Very bad, 5 - Very good)',
-                required: false,
+                required: true,
                 attributes: {
-                    min: 0,
-                    max: 12
+                    min: 1,
+                    max: 5
                 }
             }]
         }
@@ -49,3 +49,29 @@ export const getInitialData = () => (dispatch) => {
     //         dispatch(creators.hideSpinner());
     //     });
 };
+
+export const submitFormAnswers = () => (dispatch, getState) => {
+    const { surveyFormData } = getState();
+    debugger;
+    const data = {
+        type: 'surveyAnswers',
+        id: surveyFormData.data.attributes.id,
+        attributes: {
+            answers: [{
+                questionId:surveyFormData.data.attributes.questionId,
+                answer:surveyFormData.data.attributes.questionType
+            }]
+        },
+        relationships: {
+            survey: {
+                data: {
+                    type: "surveys",
+                    id: "nekiid"
+                }
+            }
+        }
+    }
+
+    const url = data;
+    debugger;
+}
