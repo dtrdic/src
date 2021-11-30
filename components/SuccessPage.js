@@ -1,11 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { connect } from 'react-redux';
 import "./SuccessPage.scss";
 
+
+
 function SuccessPage() {
+    debugger;
+
   const userReview = localStorage.getItem("userReview");
   const review = JSON.parse(userReview);
+
 
   return (
     <div className="SuccessPage">
@@ -37,4 +42,10 @@ function SuccessPage() {
   );
 }
 
-export default SuccessPage;
+function mapStateToProps(state) {
+    return {
+        data: state.surveyFormData
+    };
+  }
+
+export default connect(mapStateToProps)(SuccessPage);

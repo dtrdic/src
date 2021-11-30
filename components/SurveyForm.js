@@ -1,53 +1,50 @@
 import React, { PureComponent } from "react";
 import '../components/SurveyForm.scss';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { updateProperty } from '../actions/creators';
-import { submitFormAnswers } from '../actions/networkCalls';
+
 
 class SurveyForm extends PureComponent {
 
-    // handleChange = (e) => {
-    //     setForm({ ...form, [e.target.name]: e.target.value });
-    //   };
-
       _submitAnswers = () => {
+        // debugger;
+        // const {questionId,answer}=this.props.data.questions[0];
+        // localStorage.setItem(questionId,answer);
+        // localStorage.setItem('movie-review-bad',answer);
         this.props.onFormSubmit();
     }
 
     _updateProperty = (property) => {
-        debugger;
         this.props.updateProperty(property.target.name, property.target.value);
     }
 
     render() {
         const { data, handleChange, required, error, handleSubmit } = this.props;
         const {attributes} = data;
-        const questionList = (
-            <div>
-                {attributes?.questions?.map((question) =>
-                (
-                    <div className="Form__question-container">
-                    <label
-                      htmlFor={question?.questionId}
-                      id="movie-name-label"
-                      className="Form__question"
-                    >
-                      {question?.label}
-                    </label>
-                    <input
-                      type={question?.questionType}
-                      name="film"
-                      id={question?.questionId}
-                      placeholder="Enter the name of the film"
-                      required={question?.required}
-                      onChange={handleChange}
-                    />
-                  </div>
-                    )
-                )}
-            </div>
-        );
+        // const questionList = (
+        //     <div>
+        //         {attributes?.questions?.map((question) =>
+        //         (
+        //             <div className="Form__question-container">
+        //             <label
+        //               htmlFor={question?.questionId}
+        //               id="movie-name-label"
+        //               className="Form__question"
+        //             >
+        //               {question?.label}
+        //             </label>
+        //             <input
+        //               type={question?.questionType}
+        //               name="film"
+        //               id={question?.questionId}
+        //               placeholder="Enter the name of the film"
+        //               required={question?.required}
+        //               onChange={handleChange}
+        //             />
+        //           </div>
+        //             )
+        //         )}
+        //     </div>
+        // );
 
         return (
           <div className="Form">
@@ -72,7 +69,6 @@ class SurveyForm extends PureComponent {
                           placeholder="Enter the name of the film"
                           required={question?.required}
                           onChange={this._updateProperty}
-                          //onChange={handleChange}
                         />
                       </div>
                     ) : (
@@ -87,8 +83,7 @@ class SurveyForm extends PureComponent {
                               value="movie-review-bad"
                               id="movie-review-bad"
                               onChange={this._updateProperty}
-                              //onChange={handleChange}
-                              required={question?.required}
+                              //required={question?.required}
                             />
                             <label
                               htmlFor="movie-review-bad"
@@ -105,9 +100,8 @@ class SurveyForm extends PureComponent {
                               name="review"
                               value="movie-review-good"
                               id="movie-review-good"
-                              required={question?.required}
+                              //required={question?.required}
                               onChange={this._updateProperty}
-                              //onChange={handleChange}
                             />
                             <label
                               htmlFor="movie-review-good"
@@ -129,7 +123,7 @@ class SurveyForm extends PureComponent {
                   type="submit"
                   value="Submit"
                   id="submit"
-                  onClick={() => this._submitAnswers()}
+                  onClick={this._submitAnswers}
                 />
                 {error && <div> {error}</div>}
               </div>
@@ -141,23 +135,6 @@ class SurveyForm extends PureComponent {
     }
 };
 
-
-function mapStateToProps(state) {
-    return {
-        data: state.surveyFormData
-    };
-}
-
-const mapDispatchToProps = (dispatch) => ({
-    updateProperty: (propertyName, value) => {
-        dispatch(updateProperty(propertyName, value));
-    },
-
-    onFormSubmit: () => {
-        dispatch(submitFormAnswers());
-    },
-
-});
 
 SurveyForm.propTypes = {
     data: PropTypes.shape({
@@ -183,24 +160,25 @@ SurveyForm.propTypes = {
     required: PropTypes.bool,
     error: PropTypes.object,
     onFormSubmit: PropTypes.func,
+    updateProperty: PropTypes.func,
     postReview: PropTypes.object
 };
 
-// SurveyForm.defaultProps = {
-//     data: {
-//         attributes: {
-//             questions: {
-//                 questionId: '',
-//                 questionType: '',
-//                 label: '',
-//                 required: false,
-//                 attributes: {
-//                     min:0,
-//                     max:0
-//                 }
-//             }
-//         }
-//     }
-// }
+SurveyForm.defaultProps = {
+    data: {
+        attributes: {
+            questions: {
+                questionId: '',
+                questionType: '',
+                label: '',
+                required: false,
+                attributes: {
+                    min:0,
+                    max:0
+                }
+            }
+        }
+    }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(SurveyForm);
+export default SurveyForm;

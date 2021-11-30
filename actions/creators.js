@@ -8,10 +8,23 @@ export function fetchInitialSurveyData(response) {
 }
 
 export function updateProperty(propertyName, value) {
-    debugger;
     return {
         type: types.UPDATE_PROPERTY,
         propertyName,
         value
+    };
+}
+
+export function showSpinner() {
+    return {
+        type: types.SHOW_SPINNER,
+        visible: true
+    };
+}
+
+export function hideSpinner() {
+    return {
+        type: types.HIDE_SPINNER,
+        visible: false
     };
 }

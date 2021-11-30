@@ -9,9 +9,11 @@
 // export default store;
 import { combineReducers } from 'redux';
 import surveyFormData from './surveyFormData';
+import spinnerVisible from './spinnerVisible';
 
 const surveyCombinedReducers = combineReducers({
-    surveyFormData
+    surveyFormData,
+    spinnerVisible
 });
 
 export default surveyCombinedReducers;
