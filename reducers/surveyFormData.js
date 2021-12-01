@@ -17,7 +17,8 @@ const surveyDataInit = {
                             max: 0
                         }
                     }]
-                }
+                },
+                isSubmitted: false
             },
 }
 

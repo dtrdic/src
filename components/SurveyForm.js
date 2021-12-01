@@ -4,6 +4,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Input from './Input';
 import RadioButton from './RadioButton';
+import SuccessPage from "./SuccessPage";
 
 class SurveyForm extends PureComponent {
     _getMandatoryFields = () => {
@@ -56,70 +57,72 @@ class SurveyForm extends PureComponent {
         // );
 
         return (
-          <div className="Form">
-          <form >
-            <div >
-              {data?.attributes?.questions &&
-                data?.attributes?.questions.map((question, index) => (
-                  <div key={index}>
-                    {question?.attributes === null ? (
-                      <div className="form-group">
-                          <Input
-                            id="movie-id"
-                            label={question?.label}
-                            placeholder="Enter the name of the film"
-                            type="text"
-                            name="film"
-                            id={question?.questionId}
-                            required={question?.required}
-                            updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
-                            />
-                           {mandatoryFields.film ?  errors && <span className="text-danger">{errors}</span> : 'no errros'};
-                      </div>
-                    ) : (
-                      <>
-                        <h3>{question?.label}</h3>
-                        <div className="form-check form-check-inline">
-                            <RadioButton
-                                type="radio"
-                                name="review"
-                                value="movie-review-bad"
-                                id="movie-review-bad"
-                                score={question?.attributes?.min}
-                                //required={question?.required}
+          <div>{!data.isSubmitted ?
+              <div className="Form">
+              <form >
+                <div >
+                  {data?.attributes?.questions &&
+                    data?.attributes?.questions.map((question, index) => (
+                      <div key={index}>
+                        {question?.attributes === null ? (
+                          <div className="form-group">
+                              <Input
+                                id="movie-id"
+                                label={question?.label}
+                                placeholder="Enter the name of the film"
+                                type="text"
+                                name="film"
+                                id={question?.questionId}
+                                required={question?.required}
                                 updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
                                 />
-                            <div/>
-                          <div className="form-check form-check-inline">
-                          <RadioButton
-                                type="radio"
-                                name="review"
-                                value="movie-review-good"
-                                id="movie-review-good"
-                                score={question?.attributes?.max}
-                                //required={question?.required}
-                                updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
-                                />
+                               {mandatoryFields.film ?  errors && <span className="text-danger">{errors}</span> : 'no errros'};
+                          </div>
+                        ) : (
+                          <>
+                            <h3>{question?.label}</h3>
+                            <div className="form-check form-check-inline">
+                                <RadioButton
+                                    type="radio"
+                                    name="review"
+                                    value="movie-review-bad"
+                                    id="movie-review-bad"
+                                    score={question?.attributes?.min}
+                                    //required={question?.required}
+                                    updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
+                                    />
+                                <div/>
+                              <div className="form-check form-check-inline">
+                              <RadioButton
+                                    type="radio"
+                                    name="review"
+                                    value="movie-review-good"
+                                    id="movie-review-good"
+                                    score={question?.attributes?.max}
+                                    //required={question?.required}
+                                    updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        {/* {required && <div> {required}</div>} */}
-                      </>
-                    )}
+                            {/* {required && <div> {required}</div>} */}
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  <div className="Form__button">
+                    <input
+                      className="Form__button-submit"
+                      type="submit"
+                      value="Submit"
+                      id="submit"
+                      onClick={this._submitAnswers}
+                    />
                   </div>
-                ))}
-              <div className="Form__button">
-                <input
-                  className="Form__button-submit"
-                  type="submit"
-                  value="Submit"
-                  id="submit"
-                  onClick={this._submitAnswers}
-                />
-              </div>
-            </div>
-          </form>
-
-        </div>
+                </div>
+              </form>
+              
+                      </div> : <SuccessPage />}
+          </div>
         );
     }
 };
@@ -144,7 +147,8 @@ SurveyForm.propTypes = {
                     })
                 })
             )
-        })
+        }),
+        isSubmitted: PropTypes.bool,
     }),
     required: PropTypes.bool,
     onFormSubmit: PropTypes.func,

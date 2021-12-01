@@ -96,11 +96,13 @@ export const submitFormAnswers = () => (dispatch, getState) => {
     if (validationErrors.length > 0) {
         return;
     }
+    
 
     localStorage.setItem(
         'userReview',
         JSON.stringify(payload.attributes.answers)
       );
+      surveyFormData.data.isSubmitted = true;
       window.location.assign('/success')
 
 
