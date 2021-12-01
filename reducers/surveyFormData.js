@@ -41,7 +41,10 @@ const surveyDataInit = {
                       questionId: action.propertyName,
                       answer: action.value,
                    }]
-          };
+                };
+                // data.data.attributes.questions.forEach(element => {
+                //     newObject.questions.push({questionId: element.propertyName, answer: element.value})
+                // });
         //   newObject.questions.questionId=[action.propertyName];
         //   newObject.questions.answer=[action.value];
           return Object.assign({}, state, newObject);

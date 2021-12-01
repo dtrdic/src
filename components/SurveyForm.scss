@@ -18,6 +18,11 @@
       font-size: 1.5rem;
       text-transform: uppercase;
     }
+
+    &__input {
+      padding: 5px;
+      margin-bottom: 20px;
+    }
   
     &__button {
       text-align: center;
@@ -28,7 +33,7 @@
       cursor: pointer;
       color: $white;
       font-size: 2.2rem;
-      margin-top: 8rem;
+      margin-top: 4rem;
       padding: 0.7rem;
       border: none;
       width: 60%;

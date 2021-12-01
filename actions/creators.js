@@ -28,3 +28,10 @@ export function hideSpinner() {
         visible: false
     };
 }
+
+export function updateValidationErrors(values) {
+    return {
+        type: types.UPDATE_VALIDATION_ERRORS,
+        errors: values
+    };
+}

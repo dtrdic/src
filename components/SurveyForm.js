@@ -1,9 +1,17 @@
 import React, { PureComponent } from "react";
 import '../components/SurveyForm.scss';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
-
+import Input from './Input';
+import RadioButton from './RadioButton';
 
 class SurveyForm extends PureComponent {
+    _getMandatoryFields = () => {
+        return {
+            film: (_.some(this.props.errors, { propertyName: 'film' })),
+            review: (_.some(this.props.errors, { propertyName: 'review' })),
+        };
+    }
 
       _submitAnswers = () => {
         // debugger;
@@ -18,8 +26,9 @@ class SurveyForm extends PureComponent {
     }
 
     render() {
-        const { data, handleChange, required, error, handleSubmit } = this.props;
-        const {attributes} = data;
+        const { data, handleChange, required, errors, handleSubmit } = this.props;
+        const mandatoryFields = this._getMandatoryFields();
+
         // const questionList = (
         //     <div>
         //         {attributes?.questions?.map((question) =>
@@ -48,71 +57,52 @@ class SurveyForm extends PureComponent {
 
         return (
           <div className="Form">
-          <form id="survey-form" >
-            <div className="form-column">
+          <form >
+            <div >
               {data?.attributes?.questions &&
                 data?.attributes?.questions.map((question, index) => (
                   <div key={index}>
                     {question?.attributes === null ? (
-                      <div className="Form__question-container">
-                        <label
-                          htmlFor={question?.questionId}
-                          id="movie-name-label"
-                          className="Form__question"
-                        >
-                          {question?.label}
-                        </label>
-                        <input
-                          type={question?.questionType}
-                          name="film"
-                          id={question?.questionId}
-                          placeholder="Enter the name of the film"
-                          required={question?.required}
-                          onChange={this._updateProperty}
-                        />
+                      <div className="form-group">
+                          <Input
+                            id="movie-id"
+                            label={question?.label}
+                            placeholder="Enter the name of the film"
+                            type="text"
+                            name="film"
+                            id={question?.questionId}
+                            required={question?.required}
+                            updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
+                            />
+                           {mandatoryFields.film ?  errors && <span className="text-danger">{errors}</span> : 'no errros'};
                       </div>
                     ) : (
                       <>
-                        <div className="radio-buttons">
-                          <h3 className="Form__question">{question?.label}</h3>
-      
-                          <div className="radio-button">
-                            <input
-                              type="radio"
-                              name="review"
-                              value="movie-review-bad"
-                              id="movie-review-bad"
-                              onChange={this._updateProperty}
-                              //required={question?.required}
-                            />
-                            <label
-                              htmlFor="movie-review-bad"
-                              className="radio-button-label"
-                            >
-                              <span className="radio-button-span"></span>
-                              {question?.attributes?.min}
-                            </label>
-                          </div>
-      
-                          <div className="radio-button">
-                            <input
-                              type="radio"
-                              name="review"
-                              value="movie-review-good"
-                              id="movie-review-good"
-                              //required={question?.required}
-                              onChange={this._updateProperty}
-                            />
-                            <label
-                              htmlFor="movie-review-good"
-                              className="radio-button-label"
-                            >
-                              <span className="radio-button-span"></span>
-                              {question?.attributes?.max}
-                            </label>
-                          </div>
+                        <h3>{question?.label}</h3>
+                        <div className="form-check form-check-inline">
+                            <RadioButton
+                                type="radio"
+                                name="review"
+                                value="movie-review-bad"
+                                id="movie-review-bad"
+                                score={question?.attributes?.min}
+                                //required={question?.required}
+                                updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
+                                />
+                            <div/>
+                          <div className="form-check form-check-inline">
+                          <RadioButton
+                                type="radio"
+                                name="review"
+                                value="movie-review-good"
+                                id="movie-review-good"
+                                score={question?.attributes?.max}
+                                //required={question?.required}
+                                updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
+                                />
+                            </div>
                         </div>
-                        {required && <div> {required}</div>}
+                        {/* {required && <div> {required}</div>} */}
                       </>
                     )}
                   </div>
@@ -125,7 +115,6 @@ class SurveyForm extends PureComponent {
                   id="submit"
                   onClick={this._submitAnswers}
                 />
-                {error && <div> {error}</div>}
               </div>
             </div>
           </form>
@@ -158,10 +147,13 @@ SurveyForm.propTypes = {
         })
     }),
     required: PropTypes.bool,
-    error: PropTypes.object,
     onFormSubmit: PropTypes.func,
     updateProperty: PropTypes.func,
-    postReview: PropTypes.object
+    errors: PropTypes.arrayOf(
+        PropTypes.shape({
+            propertyName: PropTypes.string,
+            errorMessage: PropTypes.string,
+        })).isRequired,
 };
 
 SurveyForm.defaultProps = {

@@ -13,16 +13,18 @@ class App extends PureComponent {
 
 
   render() {
+    const { data } = this.props;
     return (
       <div className="App">
         <Loader 
             visible={this.props.spinner} />
         <Header 
-            attributes={this.props.data.attributes} />
+            attributes={data.attributes} />
         <SurveyForm 
-            data={this.props.data}
+            data={data}
             onFormSubmit={this.props.onFormSubmit}
             updateProperty={this.props.updateProperty}
+            errors={this.props.errors}
         />
       </div>
     );
@@ -32,7 +34,8 @@ class App extends PureComponent {
 function mapStateToProps(state) {
   return {
       spinner: state.spinnerVisible,
-      data: state.surveyFormData
+      data: state.surveyFormData,
+      errors: state.validationErrors
   };
 }
 
@@ -48,6 +51,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 App.propTypes = {
+  errors: PropTypes.arrayOf(PropTypes.object).isRequired,
   spinner: PropTypes.bool.isRequired,
   data: PropTypes.shape({
     type: PropTypes.string,
