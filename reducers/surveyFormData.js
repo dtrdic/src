@@ -1,4 +1,4 @@
-import { FETCH_INITIAL_SURVEY_DATA, UPDATE_PROPERTY } from '../constants/actionTypes'
+import { FETCH_INITIAL_SURVEY_DATA, UPDATE_PROPERTY, SHOW_SUCCESS_PAGE } from '../constants/actionTypes'
 
 const surveyDataInit = {
         data: {
@@ -20,6 +20,7 @@ const surveyDataInit = {
                 },
                 isSubmitted: false
             },
+            answers: []
 }
 
   const surveyFormData = (state = surveyDataInit, action) => {
@@ -27,28 +28,18 @@ const surveyDataInit = {
         case FETCH_INITIAL_SURVEY_DATA:
             const initData = Object.assign({}, state, action.payload);
             return initData;
+
         case UPDATE_PROPERTY:
-            const data = Object.assign({}, state);
+            const newObject = Object.assign({}, state, {
+                answers: [...state.answers, {questionId: action.propertyName, answer: action.value}]
+            });
+          return newObject;
 
-            // data.data.attributes.questions[action.propertyName] = action.value;
-            // return data;
+        case SHOW_SUCCESS_PAGE:
+            const data = Object.assign({}, state, action.payload);
+                data.isSubmitted = true;
 
-            //data.data.attributes.questions.questionId = action.value;
-            // data.data.attributes.questions.attributes.min = action.value;
-            // data.data.attributes.questions.attributes.max = action.value;
-            //data.data.attributes.questions[action.propertyName] = action.value;
-            const newObject = {
-                   questions: [{
-                      questionId: action.propertyName,
-                      answer: action.value,
-                   }]
-                };
-                // data.data.attributes.questions.forEach(element => {
-                //     newObject.questions.push({questionId: element.propertyName, answer: element.value})
-                // });
-        //   newObject.questions.questionId=[action.propertyName];
-        //   newObject.questions.answer=[action.value];
-          return Object.assign({}, state, newObject);
+            return data;
 
         default:
             return state;

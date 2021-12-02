@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 class SuccessPage extends PureComponent {
 
     render() {
-      const userReview = localStorage.getItem("userReview");
-      const review = JSON.parse(userReview);
+    //   const userReview = localStorage.getItem("userReview");
+    //   const review = JSON.parse(userReview);
       return (
         <div className="SuccessPage">
           <div className="SuccessPage__container">
@@ -42,10 +42,6 @@ class SuccessPage extends PureComponent {
   }
 }
 
-function mapStateToProps(state) {
-    return {
-        data: state.surveyFormData
-    };
-  }
 
-export default connect(mapStateToProps)(SuccessPage);
+
+export default SuccessPage;

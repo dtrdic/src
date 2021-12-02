@@ -35,3 +35,10 @@ export function updateValidationErrors(values) {
         errors: values
     };
 }
+
+export function showSuccesPage(response) {
+    return {
+        type: types.SHOW_SUCCESS_PAGE,
+        payload: response
+    };
+}

@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as constants from '../constants/actionTypes';
 import * as creators from '../actions/creators';
 import _ from 'lodash';
-import { useNavigate  } from 'react-router-dom';
+//import { useNavigate  } from 'react-router-dom';
 
 export const getInitialData = () => (dispatch) => {
     dispatch(creators.showSpinner());
@@ -52,32 +52,15 @@ export const getInitialData = () => (dispatch) => {
 };
 
 export const submitFormAnswers = () => (dispatch, getState) => {
-    const { surveyFormData } = getState();
     dispatch(creators.showSpinner());
-    //let navigate = useNavigate();
-
-    // const payload2 = {
-    // attributes: {
-    //     answers: [{
-    //         questionId:surveyFormData.data.attributes.questions,
-    //         answer:surveyFormData.data.attributes.questions
-    //     },]}}
-    //     const tertr = payload2;
+    const { surveyFormData } = getState();
 
     const userId = '9c7160a4-e9ad-499e-92f6-07d7cdb0382c';
     const payload = {
         type: 'surveyAnswers',
         id: userId,
         attributes: {
-            answers: [{
-                questionId:surveyFormData.questions[0]?.questionId,
-                answer:surveyFormData.questions[0]?.answer
-            },
-            {
-                questionId:surveyFormData.questions[1]?.questionId,
-                answer:surveyFormData.questions[1]?.answer
-            }
-        ]
+            answers: surveyFormData.answers
         },
         relationships: {
             survey: {
@@ -89,21 +72,21 @@ export const submitFormAnswers = () => (dispatch, getState) => {
         }
     }
 
-    const validationErrors = validateData(payload.attributes.answers);
+    // const validationErrors = validateData(payload.attributes.answers);
 
-    dispatch(creators.updateValidationErrors(validationErrors));
+    // dispatch(creators.updateValidationErrors(validationErrors));
 
-    if (validationErrors.length > 0) {
-        return;
-    }
+    // if (validationErrors.length > 0) {
+    //     return;
+    // }
     
+    dispatch(creators.showSuccesPage());
 
-    localStorage.setItem(
-        'userReview',
-        JSON.stringify(payload.attributes.answers)
-      );
-      surveyFormData.data.isSubmitted = true;
-      window.location.assign('/success')
+    // localStorage.setItem(
+    //     'userReview',
+    //     JSON.stringify(payload.attributes.answers)
+    //   );
+    //   window.location.assign('/success')
 
 
     const url = `${constants.API_SURVEY_URL}/${payload.id}/answers`;
