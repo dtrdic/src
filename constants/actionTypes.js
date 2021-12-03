@@ -11,4 +11,3 @@ export const CLEAR_VALIDATION_ERRORS = 'CLEAR_VALIDATION_ERRORS';
 
 // API
 export const API_SURVEY_URL = '/api/v1/survey';
-export const GET_INIT_DATA = '/api/v1/survey';

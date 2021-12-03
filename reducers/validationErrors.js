@@ -8,7 +8,6 @@ const validationErrors = (state = [], action) => {
             action.errors.forEach(item => {
                 changedErrors.push({ propertyName: item.source, errorMessage: item.detail });
             });
-            debugger;
             return changedErrors;
 
         case CLEAR_VALIDATION_ERRORS:

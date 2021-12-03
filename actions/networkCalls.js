@@ -2,7 +2,6 @@ import axios from 'axios';
 import * as constants from '../constants/actionTypes';
 import * as creators from '../actions/creators';
 import _ from 'lodash';
-//import { useNavigate  } from 'react-router-dom';
 
 export const getInitialData = () => (dispatch) => {
     dispatch(creators.showSpinner());
@@ -34,16 +33,16 @@ export const getInitialData = () => (dispatch) => {
     };
     const url = `${constants.API_SURVEY_URL}`;
 
-    // axios.get(url)
-    //         .then((response) => {
-    //             if(response.status === 200)
-    //             dispatch(creators.fetchInitialSurveyData(data));
-    //             dispatch(creators.hideSpinner());
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //             dispatch(creators.hideSpinner());
-    //         });;
+    axios.get(url)
+            .then((response) => {
+                if(response.status === 200)
+                dispatch(creators.fetchInitialSurveyData(data));
+                dispatch(creators.hideSpinner());
+            })
+            .catch(function (error) {
+                console.log(error);
+                dispatch(creators.hideSpinner());
+            });;
 
     dispatch(creators.fetchInitialSurveyData(data));
     dispatch(creators.hideSpinner());
@@ -129,13 +128,13 @@ export const submitFormAnswers = () => (dispatch, getState) => {
         //     return name.questionId === 'film';
         //   }
 
+        // answers.filter(function(item) { 
+        //     if(item.questionId === "film") {
+        //    errors.push({ source: 'film', detail: 'The value is required' });
+        //     } })
           
         return errors;
 
-        answers.filter(function(item) { 
-            if(item.questionId === "film") {
-           errors.push({ source: 'film', detail: 'The value is required' });
-            } })
             
     };
 }

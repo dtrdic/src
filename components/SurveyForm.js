@@ -22,14 +22,14 @@ class SurveyForm extends PureComponent {
     }
 
     render() {
-        const { data, required, errors } = this.props;
+        const { data, errors } = this.props;
         const mandatoryFields = this._getMandatoryFields();
 
         return (
         <div className="Form">
             <form >
             <div >
-                {data?.attributes?.questions &&
+                {
                 data?.attributes?.questions.map((question, index) => (
                     <div key={index}>
                     {question?.attributes === null ? (
