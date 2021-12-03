@@ -36,13 +36,12 @@ class SurveyForm extends PureComponent {
                         <div className="form-group">
                             <div className={mandatoryFields.film ? 'has-error' : ''}>
                                 <Input
-                                id="movie-id"
-                                label={question?.label}
-                                placeholder="Enter the name of the film"
-                                type="text"
-                                name={question?.questionId}
-                                required={mandatoryFields.film}
-                                updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
+                                    label={question?.label}
+                                    placeholder="Enter the name of the film"
+                                    type="text"
+                                    name={question?.questionId}
+                                    required={mandatoryFields.film}
+                                    updateProperty={this._updateProperty}
                                 />
                             </div>
                             {mandatoryFields.film ?  <span className="text-danger">{errors.film}</span> : <div></div>}

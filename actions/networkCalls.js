@@ -34,15 +34,15 @@ export const getInitialData = () => (dispatch) => {
     const url = `${constants.API_SURVEY_URL}`;
 
     axios.get(url)
-            .then((response) => {
-                if(response.status === 200)
-                dispatch(creators.fetchInitialSurveyData(data));
-                dispatch(creators.hideSpinner());
-            })
-            .catch(function (error) {
-                console.log(error);
-                dispatch(creators.hideSpinner());
-            });;
+        .then((response) => {
+            if(response.status === 200)
+            dispatch(creators.fetchInitialSurveyData(data));
+            dispatch(creators.hideSpinner());
+        })
+        .catch(function (errors) {
+            console.log(errors);
+            dispatch(creators.hideSpinner());
+        });;
 
     dispatch(creators.fetchInitialSurveyData(data));
     dispatch(creators.hideSpinner());
@@ -52,7 +52,8 @@ export const submitFormAnswers = () => (dispatch, getState) => {
     dispatch(creators.showSpinner());
     const { surveyFormData } = getState();
 
-    //const transformed = surveyFormData.answers.map(({ id, name }) => ({ questionId: id, answer: name }));
+    const transformed = surveyFormData.answers.map(({ id, name }) => ({ questionId: id, answer: name }));
+    const res = surveyFormData.answers.filter(obj => Object.values(obj).some(val => val.includes('answer')));
 
     const userId = '9c7160a4-e9ad-499e-92f6-07d7cdb0382c';
     const surveyId = surveyFormData.id;
@@ -80,7 +81,6 @@ export const submitFormAnswers = () => (dispatch, getState) => {
     // if (validationErrors.length > 0) {
     //     return;
     // }
-    //window.location.assign('/success')
     dispatch(creators.showSuccesPage());     
 
 

@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Header from './components/Header';
+import { connect } from 'react-redux';
 import './App.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
-import { connect } from 'react-redux';
+import Header from './components/Header';
 import SurveyForm from './components/SurveyForm';
+import SuccessPage from './components/SuccessPage';
 import { updateProperty } from './actions/creators';
 import { submitFormAnswers } from './actions/networkCalls';
-import SuccessPage from './components/SuccessPage';
 
 class App extends PureComponent {
 
@@ -19,17 +19,17 @@ class App extends PureComponent {
       <div className="App">
         <Loader 
             visible={this.props.spinner} />
-            {!data.isSubmitted ?  
-        <div>
-          <Header
-              attributes={data.attributes} />
-          <SurveyForm
-              data={data}
-              onFormSubmit={this.props.onFormSubmit}
-              updateProperty={this.props.updateProperty}
-              errors={this.props.errors}
-          />
-        </div> :
+        {!data.isSubmitted ?  
+            <div>
+              <Header
+                  attributes={data.attributes} />
+              <SurveyForm
+                  data={data}
+                  onFormSubmit={this.props.onFormSubmit}
+                  updateProperty={this.props.updateProperty}
+                  errors={this.props.errors}
+              />
+            </div> :
           <SuccessPage 
               answers={data.answers}
           />}
