@@ -33,6 +33,7 @@ const surveyDataInit = {
             const newObject = Object.assign({}, state, {
                 answers: [...state.answers, {questionId: action.propertyName, answer: action.value}]
             });
+
             return newObject;
 
         case SHOW_SUCCESS_PAGE:

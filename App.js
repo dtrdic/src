@@ -31,7 +31,7 @@ class App extends PureComponent {
           />
         </div> :
           <SuccessPage 
-          answers={data.answers}/>}
+              answers={data.answers}/>}
       </div>
     );
   }

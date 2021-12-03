@@ -1,30 +1,26 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import PropTypes from 'prop-types';
 
-class RadioButton extends PureComponent {
-
-    render () {
-        const { name, value, id } = this.props;
-        return (
-            <div>
-                <div className="radio-button">
-                  <input
-                    className="form-check-input" 
-                    type="radio"
-                    name={name}
-                    value={value}
-                    id={id}
-                    onChange={(propertyName, value) => this.props.updateProperty(propertyName, value)}
-                  />
-                  <label
-                    className="form-check-label"
-                  >
-                    {value}
-                  </label>
-                </div>
+const RadioButton = (props) => {
+    return (
+        <div>
+            <div className="radio-button">
+              <input
+                className="form-check-input" 
+                type="radio"
+                name={props.name}
+                value={props.value}
+                id={props.id}
+                onChange={(propertyName, value) => props.updateProperty(propertyName, value)}
+              />
+              <label
+                className="form-check-label"
+              >
+                {props.value}
+              </label>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 RadioButton.propTypes = {

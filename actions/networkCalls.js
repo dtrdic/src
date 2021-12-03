@@ -32,7 +32,7 @@ export const getInitialData = () => (dispatch) => {
             }]
         }
     };
-    // const url = `${constants.API_SURVEY_URL}`;
+    const url = `${constants.API_SURVEY_URL}`;
 
     // axios.get(url)
     //         .then((response) => {
@@ -53,7 +53,11 @@ export const submitFormAnswers = () => (dispatch, getState) => {
     dispatch(creators.showSpinner());
     const { surveyFormData } = getState();
 
+    //const transformed = surveyFormData.answers.map(({ id, name }) => ({ questionId: id, answer: name }));
+
     const userId = '9c7160a4-e9ad-499e-92f6-07d7cdb0382c';
+    const surveyId = surveyFormData.id;
+    
     const payload = {
         type: 'surveyAnswers',
         id: userId,
@@ -64,61 +68,35 @@ export const submitFormAnswers = () => (dispatch, getState) => {
             survey: {
                 data: {
                     type: 'surveys',
-                    id: surveyFormData.id
+                    id: surveyId
                 }
             }
         }
     }
 
-    const validationErrors = validateData(payload.attributes);
+    // const validationErrors = validateData(payload.attributes);
 
-    dispatch(creators.updateValidationErrors(validationErrors));
+    // dispatch(creators.updateValidationErrors(validationErrors));
 
-    if (validationErrors.length > 0) {
-        return;
-    }
+    // if (validationErrors.length > 0) {
+    //     return;
+    // }
     //window.location.assign('/success')
-    dispatch(creators.showSuccesPage());
-
-    // localStorage.setItem(
-    //     'userReview',
-    //     JSON.stringify(payload.attributes.answers)
-    //   );
-       
+    dispatch(creators.showSuccesPage());     
 
 
-    const url = `${constants.API_SURVEY_URL}/${payload.id}/answers`;
+    const url = `${constants.API_SURVEY_URL}/${surveyId}/answers`;
 
     axios.post(url, payload)
-            .then((response) => {
-                if(response.status === 201)
-                dispatch(creators.hideSpinner());
-            })
-            .catch(function (error) {
-                console.log(error);
+            .then(response => {
+                if (!response.status === 201) {
+                    if (response.errors.length > 0) {
+                        dispatch(creators.updateValidationErrors(response.errors));
+                    }
+                } else {
+                    dispatch(creators.showSuccesPage()); 
+                }
             });
-
-    // const postReview = async (e) => {
-    //     if (payload.attributes.answers) {
-    //         console.log('post request');
-    //         navigate('/success');
-    
-    //         await url
-    //         .post(url, payload)
-    //         .then((res) => {
-    //             if (res.status === 201) {
-    //             localStorage.setItem(
-    //                 'userReview',
-    //                 JSON.stringify(payload.attributes.answers)
-    //             );
-    //             }
-    //             navigate('/success');
-    //             console.log(res, 'post res!!!');
-    //         })
-    //         .catch((err) => console.log(err));
-    //     }
-    //     e.preventDefault();
-    //     };
     
     dispatch(creators.hideSpinner());
 
