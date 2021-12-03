@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 
 class Input extends PureComponent {
     render() {
-        const { type, name, id, required, label, placeholder } = this.props;
+        const { type, name, required, label, placeholder } = this.props;
         return (
             <div>
                 <div className="Form__question-container">
                 <label
-                    id={id}
                     className="Form__question"
                 >
                     {label}
@@ -16,7 +15,6 @@ class Input extends PureComponent {
                 <input
                     type={type}
                     name={name}
-                    id={id}
                     placeholder={placeholder}
                     required={required}
                     className="Form__input"
@@ -32,11 +30,9 @@ Input.propTypes = {
     updateProperty: PropTypes.func,
     type:PropTypes.string,
     name:PropTypes.string,
-    id:PropTypes.string,
     placeholder:PropTypes.string,
     required:PropTypes.bool,
     label: PropTypes.string,
-    htmlFor: PropTypes.string
 };
 
 export default Input;

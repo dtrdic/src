@@ -20,7 +20,7 @@ const surveyDataInit = {
                 },
                 isSubmitted: false
             },
-            answers: []
+        answers: []
 }
 
   const surveyFormData = (state = surveyDataInit, action) => {
@@ -33,12 +33,11 @@ const surveyDataInit = {
             const newObject = Object.assign({}, state, {
                 answers: [...state.answers, {questionId: action.propertyName, answer: action.value}]
             });
-          return newObject;
+            return newObject;
 
         case SHOW_SUCCESS_PAGE:
-            const data = Object.assign({}, state, action.payload);
+            const data = Object.assign({}, state);
                 data.isSubmitted = true;
-
             return data;
 
         default:

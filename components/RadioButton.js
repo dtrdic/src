@@ -2,12 +2,9 @@ import React, { PureComponent } from "react";
 import PropTypes from 'prop-types';
 
 class RadioButton extends PureComponent {
-    _updateProperty = (propert) => {
-
-    }
 
     render () {
-        const { score, name, value, id } = this.props;
+        const { name, value, id } = this.props;
         return (
             <div>
                 <div className="radio-button">
@@ -22,7 +19,7 @@ class RadioButton extends PureComponent {
                   <label
                     className="form-check-label"
                   >
-                    {score}
+                    {value}
                   </label>
                 </div>
             </div>
@@ -32,14 +29,10 @@ class RadioButton extends PureComponent {
 
 RadioButton.propTypes = {
     updateProperty: PropTypes.func,
-    type:PropTypes.string,
     name:PropTypes.string,
     id:PropTypes.string,
-    placeholder:PropTypes.string,
     required:PropTypes.bool,
     label: PropTypes.string,
-    htmlFor: PropTypes.string,
-    score: PropTypes.number
 };
 
 export default RadioButton;

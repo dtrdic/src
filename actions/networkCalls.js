@@ -47,8 +47,6 @@ export const getInitialData = () => (dispatch) => {
 
     dispatch(creators.fetchInitialSurveyData(data));
     dispatch(creators.hideSpinner());
-
-
 };
 
 export const submitFormAnswers = () => (dispatch, getState) => {
@@ -72,21 +70,21 @@ export const submitFormAnswers = () => (dispatch, getState) => {
         }
     }
 
-    // const validationErrors = validateData(payload.attributes.answers);
+    const validationErrors = validateData(payload.attributes);
 
-    // dispatch(creators.updateValidationErrors(validationErrors));
+    dispatch(creators.updateValidationErrors(validationErrors));
 
-    // if (validationErrors.length > 0) {
-    //     return;
-    // }
-    
+    if (validationErrors.length > 0) {
+        return;
+    }
+    //window.location.assign('/success')
     dispatch(creators.showSuccesPage());
 
     // localStorage.setItem(
     //     'userReview',
     //     JSON.stringify(payload.attributes.answers)
     //   );
-    //   window.location.assign('/success')
+       
 
 
     const url = `${constants.API_SURVEY_URL}/${payload.id}/answers`;
@@ -94,15 +92,11 @@ export const submitFormAnswers = () => (dispatch, getState) => {
     axios.post(url, payload)
             .then((response) => {
                 if(response.status === 201)
-                localStorage.setItem(
-                    'userReview',
-                    JSON.stringify(payload.attributes.answers)
-                    );
                 dispatch(creators.hideSpinner());
             })
             .catch(function (error) {
                 console.log(error);
-            });;
+            });
 
     // const postReview = async (e) => {
     //     if (payload.attributes.answers) {
@@ -130,12 +124,40 @@ export const submitFormAnswers = () => (dispatch, getState) => {
 
     function validateData(answers) {
         const errors = [];
+        
+        // let answers=[
+        //         {questionId: 'film', answer: 'terminator'},
+        //         {questionId: 'review', answer: '5'}
+        //     ]
 
-        if (_.isNil(answers[0].questionId) || (_.isNil(answers[0].answer))) {
-                errors.push({ source: answers.questionId, detail: 'The value is required' });
-            }
-        if (_.isNil(answers[1].questionId) || (_.isNil(answers[1].answer))) {
-            errors.push({ source: answers.questionId, detail: 'The value is required' });
+        // if(answers.find(checkIfInputEmpty)){
+        //     errors.push({ source: 'film', detail: 'The value is required' });
+        //}
+
+       if( answers.find( ({ questionId }) => questionId === 'film' )){
+           errors.push({ source: 'film', detail: 'The value is required' });
+
         }
+
+        // if(checkIfEmpty('film')){
+        //     errors.push({ source: 'film', detail: 'The value is required' });
+        // }
+
+        // if(checkIfEmpty('review')){
+        //     errors.push({ source: 'film', detail: 'The value is required' });
+        // }
+
+        // function checkIfInputEmpty(name) {
+        //     return name.questionId === 'film';
+        //   }
+
+          
+        return errors;
+
+        answers.filter(function(item) { 
+            if(item.questionId === "film") {
+           errors.push({ source: 'film', detail: 'The value is required' });
+            } })
+            
     };
 }

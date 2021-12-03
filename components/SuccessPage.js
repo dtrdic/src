@@ -1,33 +1,30 @@
 import React,{ PureComponent } from "react";
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
-//import "./SuccessPage.scss";
-
-
+import "./SuccessPage.scss";
 
 class SuccessPage extends PureComponent {
-
     render() {
-    //   const userReview = localStorage.getItem("userReview");
-    //   const review = JSON.parse(userReview);
+
+    const { answers } = this.props;
+    debugger;
       return (
         <div className="SuccessPage">
           <div className="SuccessPage__container">
             <img
-              src="https://i.ibb.co/Jmr8z84/heart.png"
-              alt="heart"
-              className="SuccessPage__heart"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnuH7r4AYvAq_9Dk9VX4ptLrbVGAlzdZx4tg&usqp=CAU"
+              alt="thankyou"
             />
             <h1 className="SuccessPage__title">Success!</h1>
             <p>Thank you for your film review.</p>
             <div className="SuccessPage__answers">
-              <span>Film: </span>
-              {/* <span>{review?.answers[0]?.answer}</span> */}
+              <span>{answers[0]?.questionId}: </span>
+              <span>{answers[0]?.answer}</span>
             </div>
             <div className="SuccessPage__answers">
-              <span>Review: </span>
+              <span>{answers[1]?.questionId}: </span>
               <span>
-                {/* {review?.answers[1]?.answer === "movie-review-good" ? 5 : 1} */}
+                  {answers[1]?.answer}
               </span>
             </div>
             <p>If you like to review more films, please do so here</p>
@@ -42,6 +39,8 @@ class SuccessPage extends PureComponent {
   }
 }
 
-
+SuccessPage.propTypes = {
+    answers: PropTypes.arrayOf(PropTypes.object),
+  };
 
 export default SuccessPage;

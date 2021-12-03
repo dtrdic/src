@@ -36,9 +36,8 @@ export function updateValidationErrors(values) {
     };
 }
 
-export function showSuccesPage(response) {
+export function showSuccesPage() {
     return {
         type: types.SHOW_SUCCESS_PAGE,
-        payload: response
     };
 }

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import SurveyForm from './components/SurveyForm';
 import { updateProperty } from './actions/creators';
 import { submitFormAnswers } from './actions/networkCalls';
+import SuccessPage from './components/SuccessPage';
 
 class App extends PureComponent {
 
@@ -18,14 +19,19 @@ class App extends PureComponent {
       <div className="App">
         <Loader 
             visible={this.props.spinner} />
-        <Header 
-            attributes={data.attributes} />
-        <SurveyForm 
-            data={data}
-            onFormSubmit={this.props.onFormSubmit}
-            updateProperty={this.props.updateProperty}
-            errors={this.props.errors}
-        />
+            {!data.isSubmitted ?  
+        <div>
+          <Header
+              attributes={data.attributes} />
+          <SurveyForm
+              data={data}
+              onFormSubmit={this.props.onFormSubmit}
+              updateProperty={this.props.updateProperty}
+              errors={this.props.errors}
+          />
+        </div> :
+          <SuccessPage 
+          answers={data.answers}/>}
       </div>
     );
   }
