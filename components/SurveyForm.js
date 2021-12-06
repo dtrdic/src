@@ -18,33 +18,32 @@ class SurveyForm extends PureComponent {
     }
 
     _updateProperty = (property) => {
+
         this.props.updateProperty(property.target.name, property.target.value);
     }
 
     render() {
         const { data, errors } = this.props;
         const mandatoryFields = this._getMandatoryFields();
+        const filmErrorMessage = mandatoryFields.film ? 'This field is required' : '';
+        const reviewErrorMEssage = mandatoryFields.review ? 'This field is required' : '';
 
         return (
         <div className="Form">
             <form >
-            <div >
-                {
-                data?.attributes?.questions.map((question, index) => (
+                {data?.attributes?.questions.map((question, index) => (
                     <div key={index}>
                     {question?.attributes === null ? (
                         <div className="form-group">
-                            <div className={mandatoryFields.film ? 'has-error' : ''}>
-                                <Input
-                                    label={question?.label}
-                                    placeholder="Enter the name of the film"
-                                    type="text"
-                                    name={question?.questionId}
-                                    required={mandatoryFields.film}
-                                    updateProperty={this._updateProperty}
-                                />
-                            </div>
-                            {mandatoryFields.film ?  <span className="text-danger">{errors.film}</span> : <div></div>}
+                            <Input
+                                label={question?.label}
+                                placeholder="Enter the name of the film"
+                                type="text"
+                                name={question?.questionId}
+                                required={question?.required}
+                                updateProperty={this._updateProperty}
+                            />
+                            {mandatoryFields.film?  <div className="Form__errorMessage">{filmErrorMessage}</div> : <div></div>}
                         </div>
                     ) : (
                         <>
@@ -70,7 +69,7 @@ class SurveyForm extends PureComponent {
                                 />
                             </div>
                         </div>
-                        {/* {required && <div> {required}</div>} */}
+                        {mandatoryFields.review?  <div className="Form__errorMessage">{reviewErrorMEssage}</div> : <div></div>}
                         </>
                     )}
                     </div>
@@ -84,7 +83,6 @@ class SurveyForm extends PureComponent {
                     onClick={this._submitAnswers}
                 />
                 </div>
-            </div>
             </form>
           </div>
         );

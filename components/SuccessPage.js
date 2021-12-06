@@ -18,8 +18,8 @@ class SuccessPage extends PureComponent {
                 <h1 className="SuccessPage__title">Success!</h1>
                 <p>Thank you for your film review.</p>
                 <div>
-                {answers.map((answer, index) => (
-                    <div key={index}>
+                {answers.map((answer, questionId) => (
+                    <div key={questionId}>
                     <>
                     <div className="SuccessPage__answers">
                         <span>{answer.questionId}: </span>

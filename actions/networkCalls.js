@@ -52,17 +52,22 @@ export const submitFormAnswers = () => (dispatch, getState) => {
     dispatch(creators.showSpinner());
     const { surveyFormData } = getState();
 
-    const transformed = surveyFormData.answers.map(({ id, name }) => ({ questionId: id, answer: name }));
-    const res = surveyFormData.answers.filter(obj => Object.values(obj).some(val => val.includes('answer')));
+    const answersArray = surveyFormData.answers;
+
+    var transformed = [];
+    for(const property in answersArray){
+        var newObject = {questionId: property, answer: answersArray[property]};
+        transformed.push(newObject);
+    }
 
     const userId = '9c7160a4-e9ad-499e-92f6-07d7cdb0382c';
     const surveyId = surveyFormData.id;
-    
+
     const payload = {
         type: 'surveyAnswers',
         id: userId,
         attributes: {
-            answers: surveyFormData.answers
+            answers: transformed
         },
         relationships: {
             survey: {
@@ -74,15 +79,15 @@ export const submitFormAnswers = () => (dispatch, getState) => {
         }
     }
 
-    // const validationErrors = validateData(payload.attributes);
+    const validationErrors = validateData(answersArray);
 
-    // dispatch(creators.updateValidationErrors(validationErrors));
+    dispatch(creators.updateValidationErrors(validationErrors));
 
-    // if (validationErrors.length > 0) {
-    //     return;
-    // }
-    dispatch(creators.showSuccesPage());     
-
+    if (validationErrors.length > 0) {
+        return;
+    }
+    dispatch(creators.showSuccesPage(transformed));
+    dispatch(creators.hideSpinner());
 
     const url = `${constants.API_SURVEY_URL}/${surveyId}/answers`;
 
@@ -93,48 +98,25 @@ export const submitFormAnswers = () => (dispatch, getState) => {
                         dispatch(creators.updateValidationErrors(response.errors));
                     }
                 } else {
-                    dispatch(creators.showSuccesPage()); 
+                    dispatch(creators.showSuccesPage(transformed));
                 }
             });
-    
+
     dispatch(creators.hideSpinner());
 
-    function validateData(answers) {
-        const errors = [];
-        
-        // let answers=[
-        //         {questionId: 'film', answer: 'terminator'},
-        //         {questionId: 'review', answer: '5'}
-        //     ]
-
-        // if(answers.find(checkIfInputEmpty)){
-        //     errors.push({ source: 'film', detail: 'The value is required' });
-        //}
-
-       if( answers.find( ({ questionId }) => questionId === 'film' )){
-           errors.push({ source: 'film', detail: 'The value is required' });
-
-        }
-
-        // if(checkIfEmpty('film')){
-        //     errors.push({ source: 'film', detail: 'The value is required' });
-        // }
-
-        // if(checkIfEmpty('review')){
-        //     errors.push({ source: 'film', detail: 'The value is required' });
-        // }
-
-        // function checkIfInputEmpty(name) {
-        //     return name.questionId === 'film';
-        //   }
-
-        // answers.filter(function(item) { 
-        //     if(item.questionId === "film") {
-        //    errors.push({ source: 'film', detail: 'The value is required' });
-        //     } })
-          
-        return errors;
-
-            
-    };
 }
+
+
+function validateData(answers) {
+    const errors = [];
+
+    if(_.isNil(answers.film)) {
+        errors.push({ source: 'film', detail: 'The value is required' });
+    }
+
+    if(_.isNil(answers.review)) {
+        errors.push({ source: 'review', detail: 'The value is required' });
+    }
+
+    return errors;
+};

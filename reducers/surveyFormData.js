@@ -30,15 +30,14 @@ const surveyDataInit = {
             return initData;
 
         case UPDATE_PROPERTY:
-            const newObject = Object.assign({}, state, {
-                answers: [...state.answers, {questionId: action.propertyName, answer: action.value}]
-            });
-
+            const newObject = Object.assign({}, state)
+            newObject.answers[action.propertyName] = action.value;
             return newObject;
 
         case SHOW_SUCCESS_PAGE:
             const data = Object.assign({}, state);
                 data.isSubmitted = true;
+                data.answers = action.payload;
             return data;
 
         default:

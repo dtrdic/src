@@ -14,7 +14,7 @@ class App extends PureComponent {
 
 
   render() {
-    const { data } = this.props;
+    const { data, errors } = this.props;
     return (
       <div className="App">
         <Loader 
@@ -27,7 +27,7 @@ class App extends PureComponent {
                   data={data}
                   onFormSubmit={this.props.onFormSubmit}
                   updateProperty={this.props.updateProperty}
-                  errors={this.props.errors}
+                  errors={errors}
               />
             </div> :
           <SuccessPage 

@@ -29,6 +29,13 @@ export function hideSpinner() {
     };
 }
 
+export function showSuccesPage(response) {
+    return {
+        type: types.SHOW_SUCCESS_PAGE,
+        payload: response
+    };
+}
+
 export function updateValidationErrors(values) {
     return {
         type: types.UPDATE_VALIDATION_ERRORS,
@@ -36,8 +43,8 @@ export function updateValidationErrors(values) {
     };
 }
 
-export function showSuccesPage() {
+export function clearValidationErrors() {
     return {
-        type: types.SHOW_SUCCESS_PAGE,
+        type: types.CLEAR_VALIDATION_ERRORS,
     };
 }
