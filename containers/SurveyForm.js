@@ -28,7 +28,7 @@ class SurveyForm extends PureComponent {
         const filmErrorMessage = errors.find(obj => {return obj.propertyName === 'film'});
         const reviewErrorMessage = errors.find(obj => {return obj.propertyName === 'review'});
         const errorMessage = mandatoryFields.film ? filmErrorMessage.errorMessage :
-                             mandatoryFields.review ? reviewErrorMessage : '';
+                             mandatoryFields.review ? reviewErrorMessage.errorMessage : '';
 
         return (
         <div className="Form">
