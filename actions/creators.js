@@ -42,9 +42,3 @@ export function updateValidationErrors(values) {
         errors: values
     };
 }
-
-export function clearValidationErrors() {
-    return {
-        type: types.CLEAR_VALIDATION_ERRORS,
-    };
-}

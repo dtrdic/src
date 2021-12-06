@@ -5,7 +5,6 @@ const RadioButton = (props) => {
     return (
         <div>
             <input
-            className="form-check-input" 
             type="radio"
             name={props.name}
             value={props.value}

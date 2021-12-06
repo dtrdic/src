@@ -1,4 +1,4 @@
-import { UPDATE_VALIDATION_ERRORS, CLEAR_VALIDATION_ERRORS } from '../constants/actionTypes';
+import { UPDATE_VALIDATION_ERRORS } from '../constants/actionTypes';
 
 const validationErrors = (state = [], action) => {
     switch (action.type) {
@@ -9,9 +9,6 @@ const validationErrors = (state = [], action) => {
                 changedErrors.push({ propertyName: item.source, errorMessage: item.detail });
             });
             return changedErrors;
-
-        case CLEAR_VALIDATION_ERRORS:
-            return [];
 
         default:
             return state;

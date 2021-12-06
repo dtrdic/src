@@ -87,7 +87,7 @@ export const submitFormAnswers = () => (dispatch, getState) => {
         dispatch(creators.hideSpinner());
         return;
     }
-    dispatch(creators.showSuccesPage(transformed));
+    dispatch(creators.showSuccesPage(payload.attributes.answers));
     dispatch(creators.hideSpinner());
 
     const url = `${constants.API_SURVEY_URL}/${surveyId}/answers`;
