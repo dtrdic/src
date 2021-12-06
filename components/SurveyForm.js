@@ -13,7 +13,8 @@ class SurveyForm extends PureComponent {
         };
     }
 
-      _submitAnswers = () => {
+      _submitAnswers = (event) => {
+        event.preventDefault();
         this.props.onFormSubmit();
     }
 
@@ -23,7 +24,7 @@ class SurveyForm extends PureComponent {
     }
 
     render() {
-        const { data, errors } = this.props;
+        const { data } = this.props;
         const mandatoryFields = this._getMandatoryFields();
         const filmErrorMessage = mandatoryFields.film ? 'This field is required' : '';
         const reviewErrorMEssage = mandatoryFields.review ? 'This field is required' : '';
@@ -35,8 +36,8 @@ class SurveyForm extends PureComponent {
                     <div key={index}>
                     {question?.attributes === null ? (
                         <div className="form-group">
+                            <h3>{question?.label}</h3>
                             <Input
-                                label={question?.label}
                                 placeholder="Enter the name of the film"
                                 type="text"
                                 name={question?.questionId}
@@ -53,7 +54,6 @@ class SurveyForm extends PureComponent {
                                 type="radio"
                                 name="review"
                                 value={question?.attributes?.min}
-                                id="movie-review-bad"
                                 required={question?.required}
                                 updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
                                 />
@@ -63,7 +63,6 @@ class SurveyForm extends PureComponent {
                                 type="radio"
                                 name="review"
                                 value={question?.attributes?.max}
-                                id="movie-review-good"
                                 required={question?.required}
                                 updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
                                 />

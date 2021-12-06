@@ -84,6 +84,7 @@ export const submitFormAnswers = () => (dispatch, getState) => {
     dispatch(creators.updateValidationErrors(validationErrors));
 
     if (validationErrors.length > 0) {
+        dispatch(creators.hideSpinner());
         return;
     }
     dispatch(creators.showSuccesPage(transformed));

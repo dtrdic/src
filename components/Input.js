@@ -5,11 +5,6 @@ const Input = (props) => {
     return (
         <div>
             <div className="Form__question-container">
-            <label
-                className="Form__question"
-            >
-                {props.label}
-            </label>
             <input
                 type={props.type}
                 name={props.name}
@@ -30,7 +25,6 @@ Input.propTypes = {
     name:PropTypes.string,
     placeholder:PropTypes.string,
     required:PropTypes.bool,
-    label: PropTypes.string,
 };
 
 export default Input;

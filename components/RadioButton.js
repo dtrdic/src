@@ -10,7 +10,6 @@ const RadioButton = (props) => {
                 type="radio"
                 name={props.name}
                 value={props.value}
-                id={props.id}
                 onChange={(propertyName, value) => props.updateProperty(propertyName, value)}
               />
               <label
@@ -26,9 +25,7 @@ const RadioButton = (props) => {
 RadioButton.propTypes = {
     updateProperty: PropTypes.func,
     name:PropTypes.string,
-    id:PropTypes.string,
     required:PropTypes.bool,
-    label: PropTypes.string,
 };
 
 export default RadioButton;
