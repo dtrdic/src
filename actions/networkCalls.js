@@ -111,7 +111,7 @@ export const submitFormAnswers = () => (dispatch, getState) => {
 function validateData(answers) {
     const errors = [];
 
-    if(_.isNil(answers.film)) {
+    if(_.isNil(answers.film) || _.isEmpty(answers.film)) {
         errors.push({ source: 'film', detail: 'The value is required' });
     }
 

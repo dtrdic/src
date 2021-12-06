@@ -1,9 +1,9 @@
 import React, { PureComponent } from "react";
-import '../components/SurveyForm.scss';
+import '../containers/SurveyForm.scss';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import Input from './Input';
-import RadioButton from './RadioButton';
+import Input from '../components/Input';
+import RadioButton from '../components/RadioButton';
 
 class SurveyForm extends PureComponent {
     _getMandatoryFields = () => {
@@ -19,15 +19,16 @@ class SurveyForm extends PureComponent {
     }
 
     _updateProperty = (property) => {
-
         this.props.updateProperty(property.target.name, property.target.value);
     }
 
     render() {
-        const { data } = this.props;
+        const { data, errors } = this.props;
         const mandatoryFields = this._getMandatoryFields();
-        const filmErrorMessage = mandatoryFields.film ? 'This field is required' : '';
-        const reviewErrorMEssage = mandatoryFields.review ? 'This field is required' : '';
+        const filmErrorMessage = errors.find(obj => {return obj.propertyName === 'film'});
+        const reviewErrorMessage = errors.find(obj => {return obj.propertyName === 'review'});
+        const errorMessage = mandatoryFields.film ? filmErrorMessage.errorMessage :
+                             mandatoryFields.review ? reviewErrorMessage : '';
 
         return (
         <div className="Form">
@@ -44,31 +45,35 @@ class SurveyForm extends PureComponent {
                                 required={question?.required}
                                 updateProperty={this._updateProperty}
                             />
-                            {mandatoryFields.film?  <div className="Form__errorMessage">{filmErrorMessage}</div> : <div></div>}
+                            {mandatoryFields.film?  <div className="Form__errorMessage">{errorMessage}</div> : <div></div>}
                         </div>
                     ) : (
                         <>
                         <h3>{question?.label}</h3>
-                        <div className="form-check form-check-inline">
-                            <RadioButton
-                                type="radio"
-                                name="review"
-                                value={question?.attributes?.min}
-                                required={question?.required}
-                                updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
-                                />
-                            <div/>
-                            <div className="form-check form-check-inline">
-                            <RadioButton
-                                type="radio"
-                                name="review"
-                                value={question?.attributes?.max}
-                                required={question?.required}
-                                updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
-                                />
+                        <div className="container">
+                            <div className="row">
+                                <div className="Form__radio-position">
+                                    <RadioButton
+                                        type="radio"
+                                        name="review"
+                                        value={question?.attributes?.min}
+                                        required={question?.required}
+                                        updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
+                                        />
+                                    <div/>
+                                </div>
+                                <div className="Form__radio-position">
+                                <RadioButton
+                                    type="radio"
+                                    name="review"
+                                    value={question?.attributes?.max}
+                                    required={question?.required}
+                                    updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
+                                    />
+                                </div>
                             </div>
                         </div>
-                        {mandatoryFields.review?  <div className="Form__errorMessage">{reviewErrorMEssage}</div> : <div></div>}
+                        {mandatoryFields.review?  <div className="Form__errorMessage">{errorMessage}</div> : <div></div>}
                         </>
                     )}
                     </div>
@@ -78,7 +83,6 @@ class SurveyForm extends PureComponent {
                     className="Form__button-submit"
                     type="submit"
                     value="Submit"
-                    id="submit"
                     onClick={this._submitAnswers}
                 />
                 </div>

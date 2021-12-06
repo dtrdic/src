@@ -5,7 +5,7 @@ import './App.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import Header from './components/Header';
-import SurveyForm from './components/SurveyForm';
+import SurveyForm from './containers/SurveyForm';
 import SuccessPage from './components/SuccessPage';
 import { updateProperty } from './actions/creators';
 import { submitFormAnswers } from './actions/networkCalls';

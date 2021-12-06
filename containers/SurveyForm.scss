@@ -35,6 +35,11 @@
     &__button {
       text-align: center;
     }
+
+    &__radio-position {
+      display: inline-grid;
+      width: 100px;
+    }
   
     &__button-submit {
       background-color: $accent-color;
