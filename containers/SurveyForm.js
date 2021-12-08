@@ -73,7 +73,7 @@ class SurveyForm extends PureComponent {
                                 </div>
                             </div>
                         </div>
-                        {mandatoryFields.review?  <div className="Form__errorMessage">{errorMessage}</div> : <div></div>}
+                        {mandatoryFields.review?  <div className="Form__errorMessage">{errorMessage}</div> : <div></div>} 
                         </>
                     )}
                     </div>
