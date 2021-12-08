@@ -10,7 +10,7 @@
       font-weight: 400;
       margin: 1rem;
       color: $accent-color;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.02em;//EM units - they are relative to the font size of their own element.
     
     }
     &__description {

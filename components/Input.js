@@ -11,7 +11,7 @@ const Input = (props) => {
                 placeholder={props.placeholder}
                 required={props.required}
                 className="Form__input"
-                onChange={(propertyName, value) => props.updateProperty(propertyName, value)}
+                onChange={e => props.updateProperty(e.target.name, e.target.value)}
             />
             </div>
         </div>

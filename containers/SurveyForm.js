@@ -18,8 +18,8 @@ class SurveyForm extends PureComponent {
         this.props.onFormSubmit();
     }
 
-    _updateProperty = (property) => {
-        this.props.updateProperty(property.target.name, property.target.value);
+    _updateProperty = (propertyName, value) => {
+        this.props.updateProperty(propertyName, value);
     }
 
     render() {
@@ -33,8 +33,8 @@ class SurveyForm extends PureComponent {
         return (
         <div className="Form">
             <form >
-                {data?.attributes?.questions.map((question, index) => (
-                    <div key={index}>
+                {data?.attributes?.questions.map((question, questionId) => (
+                    <div key={questionId}>
                     {question?.attributes === null ? (
                         <div className="form-group">
                             <h3>{question?.label}</h3>
@@ -43,7 +43,7 @@ class SurveyForm extends PureComponent {
                                 type="text"
                                 name={question?.questionId}
                                 required={question?.required}
-                                updateProperty={this._updateProperty}
+                                updateProperty={(propertyName, value) => this._updateProperty(propertyName, value)}
                             />
                             {mandatoryFields.film?  <div className="Form__errorMessage">{errorMessage}</div> : <div></div>}
                         </div>

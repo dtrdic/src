@@ -8,7 +8,7 @@ const RadioButton = (props) => {
             type="radio"
             name={props.name}
             value={props.value}
-            onChange={(propertyName, value) => props.updateProperty(propertyName, value)}
+            onChange={e => props.updateProperty(e.target.name, e.target.value)}
             />
             <label>
             {props.value}

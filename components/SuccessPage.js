@@ -4,7 +4,7 @@ import "./SuccessPage.scss";
 
 class SuccessPage extends PureComponent {
     _onRetunToHome = () => {
-        window.location = 'http://localhost:3000/';
+        window.location = '/';
       }
 
     render() {

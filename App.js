@@ -14,11 +14,11 @@ class App extends PureComponent {
 
 
   render() {
-    const { data, errors } = this.props;
+    const { data, errors, spinner} = this.props;
     return (
       <div className="App">
         <Loader 
-            visible={this.props.spinner} />
+            visible={spinner} />
         {!data.isSubmitted ?  
             <div>
               <Header
